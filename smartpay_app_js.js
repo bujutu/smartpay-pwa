@@ -16,8 +16,8 @@ const methods = [
   // Main
   { id: "paypay", name: "PayPay" },
   { id: "ic_other", name: "交通系IC" },
-  { id: "credit_half", name: "クレジットカード0.5%" },
-  { id: "credit_1", name: "クレジットカード1%" },
+  { id: "credit_0.5", name: "クレジットカード0.5%" },
+  { id: "credit_1.0", name: "クレジットカード1%" },
   
   // QRコード決済系
   { id: "d_barai", name: "d払い" },
@@ -274,8 +274,8 @@ async function doSearch() {
     //main
     paypay: ["PayPay", "paypay"],
     ic_other: ["交通系IC", "ic_other"],
-    credit_half: ["クレジットカード0.5%", "credit_0.5"],
-    credit_1: ["クレジットカード1%", "credit_1.0"],  
+    "credit_0.5": ["クレジットカード0.5%", "credit_0.5"],
+    "credit_1.0": ["クレジットカード1%", "credit_1.0"],  
     // QR
     d_barai: ["d払い", "d_barai"],
     rakuten_pay: ["楽天Pay", "RakutenPay", "rakuten_pay"],
