@@ -7,7 +7,7 @@ const urlsToCache = [
   './smartpay_app_js.js',
   './A_digital_graphic_design_of_the_SmartPay_app_icon_.png'
 ];
-
+/*
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
@@ -17,6 +17,13 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(self.clients.claim());
+});
+*/
+self.addEventListener("install", event => {
+  self.skipWaiting();
+});
+self.addEventListener("activate", event => {
+  clients.claim();
 });
 
 self.addEventListener('fetch', event => {
