@@ -3,7 +3,7 @@
   - Fetches CSV data from the provided Google Sheets URL
   - Renders UI in index.html
   - Implements:
-    * default selections for paypay & smbc_card
+    * default selections
     * page2 shows first 5 items and "詳細を表示" to expand
     * clicking an item opens dialog to set custom rate, reset, or close
     * selected methods and custom rates saved in localStorage
@@ -67,7 +67,7 @@ let dialogTarget = null;
 // --- storage helpers ---
 function loadSettings() {
   // default
-  return JSON.parse(localStorage.getItem("myMethods") || '["paypay","ic_other","credit_0.5","credit_1.0"]');
+  return JSON.parse(localStorage.getItem("myMethods") || '["paypay","ic_other","credit_0.5","smbc_touch","mufg_card"]');
 }
 function saveSettings(list) {
   localStorage.setItem("myMethods", JSON.stringify(list));
