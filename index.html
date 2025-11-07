@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartPay</title>
   <style>
-    body { font-family: system-ui, -apple-system, "Helvetica Neue", Arial; margin: 0; background: #f7f7f7; color:#111; }
+    body { font-family: system-ui, -apple-system, padding-bottom: 60px;, "Helvetica Neue", Arial; margin: 0; background: #f7f7f7; color:#111; }
     header { background: #1366d6; color: white; padding: 16px; text-align: center; font-size: 20px; }
     .container { padding: 16px; max-width: 720px; margin: 0 auto; }
     input, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
@@ -81,7 +81,18 @@
       background: #eee;
     }
 
-    footer { text-align:center; padding:12px; font-size:12px; color:#666; }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      background: #f5f5f5;
+      padding: 8px 0;
+      border-top: 1px solid #ddd;
+      font-size: 14px;
+    }
+
   </style>
 </head>
 <body>
@@ -123,7 +134,10 @@
     </div>
   </div>
 
-  <footer class="hidden">ローカルで確認するには `python -m http.server 8000` を実行して <code>http://localhost:8000/smartpay_pwa/</code> を開いてください。</footer>
+  <footer class="footer">
+    <a href="./how-to.html">使い方</a> |
+    <a href="./privacypolicy.html">プライバシーポリシー</a>
+  </footer>
 
   <script src="./smartpay_app_js.js"></script>
   <script>
