@@ -109,15 +109,12 @@ function renderMethodList() {
     const cr = customRates[m.id];
     const crHtml = cr != null ? `<span class="custom-rate">${cr}%</span>` : "";
     return `
-      <label>
-        <div class="method-row" data-id="${m.id}">
-          <input type="checkbox" value="${m.id}" ${checked}>
-          <span class="name" data-open>${m.name}</span>
-          ${cr != null ? `<span class="rate" data-open>(${cr}% 設定中)</span>` : `<span class="rate" data-open></span>`}
-        </div>
+      <label data-id="${m.id}" class="method-row">
+        <input type="checkbox" value="${m.id}" ${checked}>
+        <span class="name" data-open="1">${m.name}</span>
+        ${cr != null ? `<span class="rate" data-open="1">(${cr}% 設定中)</span>` : `<span class="rate" data-open="1"></span>`}
       </label>
     `;
-
 
   }).join("");
   // attach click handler is via delegation below
@@ -125,14 +122,17 @@ function renderMethodList() {
 
 // click delegation for methodList to open dialog when label is clicked
 methodList.addEventListener("click", (e) => {
-  // チェックボックスなら通常動作
+  const label = e.target.closest("label");
+  if (!label) return;
+
+  // チェックボックスは普通に動かす
   if (e.target.tagName.toLowerCase() === "input") return;
 
-  // 名前部分 or rate 部分なら dialog を開く
-  if (e.target.dataset.open !== undefined) {
-    const row = e.target.closest(".method-row");
-    if (!row) return;
-    openDialogFor(row.dataset.id);
+  // 文字・還元率部分をクリック → チェック切り替えを止めてダイアログを開く
+  if (e.target.dataset.open === "1") {
+    e.preventDefault();  // チェックが変わらないようにする
+    const id = label.dataset.id;
+    openDialogFor(id);
   }
 });
 
