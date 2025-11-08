@@ -233,7 +233,7 @@ saveBtn.addEventListener("click", ()=> {
     //簡略表示時 → tempがあるなら統合保存
     if (temp_bottom) {
       // tempに「表示外」の選択状態があるため、それも反映する
-      saveSettings([...selected, ...temp]);
+      saveSettings([...selected, ...temp_bottom]);
     } else {
       saveSettings(selected);
     }
