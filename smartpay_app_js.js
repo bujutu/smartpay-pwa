@@ -102,17 +102,18 @@ async function loadData() {
 // --- rendering methods list (page2) ---
 function renderMethodList() {
   const my = loadSettings();
-  methodList.innerHTML = methods.map((m, index) => {
-    const hidden = (!showAll && index >= 5) ? "class='hidden'" : "";
+  const display = showAll ? methods : methods.slice(0,5);
+  methodList.innerHTML = display.map(m => {
     const checked = my.includes(m.id) ? "checked" : "";
     const customRates = loadCustomRates();
     const cr = customRates[m.id];
+    const crHtml = cr != null ? `<span class="custom-rate">${cr}%</span>` : "";
     return `
-      <div class="method-row ${hidden}" data-id="${m.id}">
+      <label data-id="${m.id}" class="method-row">
         <input type="checkbox" value="${m.id}" ${checked}>
-        <span class="name" data-open>${m.name}</span>
-        ${cr != null ? `<span class="rate" data-open>(${cr}% 設定中)</span>` : `<span class="rate" data-open></span>`}
-      </div>
+        <span class="name" data-open="1">${m.name}</span>
+        ${cr != null ? `<span class="rate" data-open="1">(${cr}% 設定中)</span>` : `<span class="rate" data-open="1"></span>`}
+      </label>
     `;
   }).join("");
   // attach click handler is via delegation below
