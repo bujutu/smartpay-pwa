@@ -64,7 +64,8 @@ const dialogClose = document.getElementById("dialogClose");
 
 let showAll = false;
 let dialogTarget = null;
-let temp = null;
+let temp_top = null;
+let temp_bottom = null
 
 // --- storage helpers ---
 function loadSettings() {
@@ -105,9 +106,9 @@ function renderMethodList() {
   const my = loadSettings();
   const display = showAll ? methods : methods.slice(0,5);
   methodList.innerHTML = display.map(m => {
-    const checked = (temp == null)
+    const checked = (temp_top == null)
       ? (my.includes(m.id) ? "checked" : "")
-      : (my.includes(m.id) || temp.includes(m.id) ? "checked" : "");
+      : (temp_top.includes(m.id) || temp_bottom.includes(m.id) ? "checked" : "");
     const customRates = loadCustomRates();
     const cr = customRates[m.id];
     const crHtml = cr != null ? `<span class="custom-rate">${cr}%</span>` : "";
@@ -196,12 +197,15 @@ showMoreBtn.addEventListener("click", ()=> {
   if (!showAll) {
     // 「詳細を表示」： 全表示に切り替える
     // 簡略表示中 → （先頭5件 + temp）に戻す
+    temp_top = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
     showAll = true;
   } else {
     // 「簡略表示」： 5件に戻す
     const selected = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
-    // 先頭5件だけ取得
-    temp = selected.slice(5);  // 先頭5件以外を退避
+    const firstFiveIds = methods.slice(0, 5).map(m => m.id);
+    const elseIds = methods.slice(5).map(m => m.id);
+    temp_top = selected.filter(id => firstFiveIds.includes(id));
+    temp_bottom = selected.filter(id => elseIds.includes(id));
     showAll = false;
   }
   
@@ -224,14 +228,15 @@ saveBtn.addEventListener("click", ()=> {
     saveSettings(selected);
   } else {
     //簡略表示時 → tempがあるなら統合保存
-    if (temp) {
+    if (temp_bottom) {
       // tempに「表示外」の選択状態があるため、それも反映する
       saveSettings([...selected, ...temp]);
     } else {
       saveSettings(selected);
     }
   }
-  temp = null; // 保存後は消す
+  temp_top = null; // 保存後は消す
+  temp_bottom = null; // 保存後は消す
   page2.classList.add("hidden");
   page1.classList.remove("hidden");
 });
