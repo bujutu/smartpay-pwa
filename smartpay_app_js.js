@@ -199,7 +199,9 @@ showMoreBtn.addEventListener("click", ()=> {
     showAll = true;
   } else {
     // 「簡略表示」： 5件に戻す
-    temp = current.slice(5);  // 先頭5件以外を退避
+    const selected = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
+    // 先頭5件だけ取得
+    temp = selected.slice(5);  // 先頭5件以外を退避
     showAll = false;
   }
   
