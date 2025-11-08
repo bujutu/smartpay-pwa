@@ -64,6 +64,7 @@ const dialogClose = document.getElementById("dialogClose");
 
 let showAll = false;
 let dialogTarget = null;
+let temp = null;
 
 // --- storage helpers ---
 function loadSettings() {
@@ -104,7 +105,9 @@ function renderMethodList() {
   const my = loadSettings();
   const display = showAll ? methods : methods.slice(0,5);
   methodList.innerHTML = display.map(m => {
-    const checked = my.includes(m.id) ? "checked" : "";
+    const checked = (temp == null)
+      ? (my.includes(m.id) ? "checked" : "")
+      : (my.includes(m.id) || temp.includes(m.id) ? "checked" : "");
     const customRates = loadCustomRates();
     const cr = customRates[m.id];
     const crHtml = cr != null ? `<span class="custom-rate">${cr}%</span>` : "";
@@ -188,7 +191,18 @@ function closeDialog() {
 
 // show more toggle
 showMoreBtn.addEventListener("click", ()=> {
-  showAll = !showAll;
+  const my = loadSettings();
+  
+  if (!showAll) {
+    // 「詳細を表示」： 全表示に切り替える
+    // 簡略表示中 → （先頭5件 + temp）に戻す
+    showAll = true;
+  } else {
+    // 「簡略表示」： 5件に戻す
+    temp = current.slice(5);  // 先頭5件以外を退避
+    showAll = false;
+  }
+  
   showMoreBtn.textContent = showAll ? "簡略表示" : "詳細を表示";
   renderMethodList();
 });
@@ -203,7 +217,19 @@ settingsBtn.addEventListener("click", ()=> {
 // save button on page2
 saveBtn.addEventListener("click", ()=> {
   const selected = [...document.querySelectorAll("#methodList input:checked")].map(i=>i.value);
-  saveSettings(selected);
+  if (showAll) {
+    //全表示時 → そのまま保存
+    saveSettings(selected);
+  } else {
+    //簡略表示時 → tempがあるなら統合保存
+    if (temp) {
+      // tempに「表示外」の選択状態があるため、それも反映する
+      saveSettings([...selected, ...temp]);
+    } else {
+      saveSettings(selected);
+    }
+  }
+  temp = null; // 保存後は消す
   page2.classList.add("hidden");
   page1.classList.remove("hidden");
 });
