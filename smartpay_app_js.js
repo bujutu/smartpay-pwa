@@ -109,11 +109,13 @@ function renderMethodList() {
     const cr = customRates[m.id];
     const crHtml = cr != null ? `<span class="custom-rate">${cr}%</span>` : "";
     return `
-      <div class="method-row" data-id="${m.id}">
-        <input type="checkbox" value="${m.id}" ${checked}>
-        <span class="name" data-open>${m.name}</span>
-        ${cr != null ? `<span class="rate" data-open>(${cr}% 設定中)</span>` : `<span class="rate" data-open></span>`}
-      </div>
+      <label>
+        <div class="method-row" data-id="${m.id}">
+          <input type="checkbox" value="${m.id}" ${checked}>
+          <span class="name" data-open>${m.name}</span>
+          ${cr != null ? `<span class="rate" data-open>(${cr}% 設定中)</span>` : `<span class="rate" data-open></span>`}
+        </div>
+      </label>
     `;
 
 
