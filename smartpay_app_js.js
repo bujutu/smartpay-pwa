@@ -144,7 +144,7 @@ methodList.addEventListener("click", (e) => {
   }
 });
 
-function temporarySve(){
+function temporarySave(){
   if (!showAll) {
     // 「詳細を表示」： 全表示に切り替える
     // 簡略表示中 → （先頭5件 + temp）に戻す
