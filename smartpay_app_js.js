@@ -144,9 +144,25 @@ methodList.addEventListener("click", (e) => {
   }
 });
 
+function temporarySve(){
+  if (!showAll) {
+    // 「詳細を表示」： 全表示に切り替える
+    // 簡略表示中 → （先頭5件 + temp）に戻す
+    temp_top = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
+    showAll = true;
+  } else {
+    // 「簡略表示」： 5件に戻す
+    // 詳細表示中→簡略表示へ
+    const selected = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
+    temp_top = selected.filter(id => firstFiveIds.includes(id));
+    temp_bottom = selected.filter(id => elseIds.includes(id));
+    showAll = false;
+  }
+}
 
 // open dialog
 function openDialogFor(id) {
+  temporarySave();
   dialogTarget = id;
   const m = methods.find(x=>x.id===id);
   const customRates = loadCustomRates();
@@ -199,18 +215,8 @@ function closeDialog() {
 showMoreBtn.addEventListener("click", ()=> {
   const my = loadSettings();
   
-  if (!showAll) {
-    // 「詳細を表示」： 全表示に切り替える
-    // 簡略表示中 → （先頭5件 + temp）に戻す
-    temp_top = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
-    showAll = true;
-  } else {
-    // 「簡略表示」： 5件に戻す
-    const selected = [...document.querySelectorAll("#methodList input:checked")].map(i => i.value);
-    temp_top = selected.filter(id => firstFiveIds.includes(id));
-    temp_bottom = selected.filter(id => elseIds.includes(id));
-    showAll = false;
-  }
+  temporarySave();
+  showAll = !showAll;
   
   showMoreBtn.textContent = showAll ? "簡略表示" : "詳細を表示";
   renderMethodList();
