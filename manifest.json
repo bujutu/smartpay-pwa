@@ -1,6 +1,6 @@
 {
   "name": "お得コンパス",
-  "short_name": "得コン",
+  "short_name": "トクコム",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
